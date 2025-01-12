@@ -1,0 +1,5 @@
+require('amraleth.settings')
+require('amraleth.packer')
+require('amraleth.color')
+require('amraleth.remap')
+require('amraleth.lsp')
