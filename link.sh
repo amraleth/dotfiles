@@ -1,6 +1,8 @@
 # /bin/sh
 # links the config files to their corresponding place
 
+echo "Removing config files and linking new ones"
+
 # neovim
 rm -rf ~/.config/nvim
 ln -s $PWD/nvim ~/.config/
