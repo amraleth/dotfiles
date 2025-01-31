@@ -3,4 +3,4 @@ setup:
 	@bash link.sh
 	@echo "Configuring packages:"
 	@echo "- Git"
-	@bash git.sh
+	@bash pkg/git.sh
