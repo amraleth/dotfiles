@@ -1,0 +1,16 @@
+[user]
+	name = Patrick Vollandt
+	email = patrick@vollandt.dev
+	signingkey = 7582B6CD892EA6F2
+[init]
+	defaultBranch = stable
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
+
+[core]
+	editor = vim
+
+[color]
+	ui = auto
