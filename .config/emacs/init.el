@@ -23,7 +23,6 @@
       use-file-dialog nil
       ring-bell-function 'ignore
       inhibit-startup-echo-area-message (user-login-name))
-(fringe-mode 0)
 (blink-cursor-mode -1)
 
 (show-paren-mode 1)
@@ -32,6 +31,13 @@
       show-paren-when-point-in-periphery t
       show-paren-context-when-offscreen 'overlay)
 (electric-pair-mode 1)
+
+(setq display-line-numbers-type 'relative
+      display-line-numbers-width-start t
+      display-line-numbers-grow-only t)
+
+(dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+  (add-hook hook #'display-line-numbers-mode))
 
 ;; package manager
 (defvar bootstrap-version)
@@ -53,6 +59,9 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+(straight-use-package 'compat)
+(require 'compat)
+
 ;; nerd icons
 (use-package nerd-icons)
 
@@ -72,7 +81,7 @@
 ;; bindings
 (use-package general
   :after evil
-  :after recentf
+  :after recentf magit
   :config
   (general-evil-setup))
 
@@ -106,6 +115,10 @@
   "wc" #'evil-window-delete
   "wo" #'delete-other-windows
   "w=" #'balance-windows
+
+  "c" '(:ignore t :which-key "compile")
+  "cc" #'compile
+  "cr" #'recompile
   )
 
 ;; theming
@@ -146,14 +159,30 @@
 
 ;; magit
 (use-package magit
-  :init
-  (setq magit-define-global-key-bindings nil
-	magit-diff-refine-hunk 'all))
+  :general
+  (amra/leader
+    "g" '(:ignore t :wk "git")
+    "gs" '(magit-status :wk "status")
+    "gb" '(magit-blame-date :wk "blame")
+    "gl" '(magit-log-current :wk "log")
+    "gd" '(magit-diff-dwim :wk "diff")
+    "gf" '(magit-file-dispatch :wk "file actions")))
 
-(amra/leader
-  "g" '(:ignore t :wk "git")
-  "gs" #'magit-status
-  "gb" #'magit-blame
-  "gl" #'magit-log-current
-  "gf" #'magit-file-dispatch
-  )
+;; diff
+(use-package diff-hl
+  :demand t
+  :config
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
+  :hook
+  ((magit-post-refresh . diff-hl-magit-post-refresh)
+   (magit-pre-refresh . diff-hl-magit-pre-refresh)
+   (dired-mode . diff-hl-dired-mode)))
+
+
+(use-package dired-git-info
+  :after dired
+  :general
+  (amra/leader
+    "tg" '(dired-git-info-mode :wk "dired git info"))
+  :hook (dired-after-readin . dired-git-info-auto-enable))
