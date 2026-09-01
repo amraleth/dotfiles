@@ -14,6 +14,8 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec lxqt-policykit-agent
 exec nm-applet --indicator
 
+output * bg ~/Pictures/Wallpaper/wp11524286.jpg fill
+
 input type:keyboard {
 	xkb_layout de
 	xkb_variant nodeadkeys
@@ -23,8 +25,8 @@ input type:keyboard {
     bindsym $mod+Return exec $term
     bindsym $mod+Shift+q kill
     bindsym $mod+d exec $menu
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
     floating_modifier $mod normal
 
@@ -105,7 +107,7 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-    bindsym Print exec grim
+    bindsym Print exec ~/.config/sway/screenshot.sh
 
 bar {
 	position top
@@ -119,3 +121,11 @@ bar {
 }
 
 include /etc/sway/config.d/*
+
+default_border none
+default_floating_border none
+
+gaps inner 4
+gaps outer 8
+
+
